@@ -7,15 +7,20 @@ using System.Threading;
 using System.Threading.Tasks;
 
 DownloadManager dm = new DownloadManager();
+Thread[] threads = new Thread[dm.urls.Count];
 
-foreach(var item in dm.urls)
+   foreach(var item in dm.urls)
+
 {
-    FileDownloader fd = new FileDownloader();
+    int i = 0;
+    threads[i] = new Thread(()=> FileDownloader.Download(item));
 
-      Thread thread = new Thread(()=> FileDownloader.Download(item));
-      thread.Start();
+    threads[i].Start();
+    i++;
 
     Console.WriteLine($"{item.Name} will be downloaded shortly");
 }
+
+   
 
 
